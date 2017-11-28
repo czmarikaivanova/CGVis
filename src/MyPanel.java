@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
+
 	private final int dstSize = 10;
 	ArrayList<Point> dstsCoords;
 	ArrayList<Pair<Point,Point>> arcs;
@@ -42,7 +43,7 @@ public class MyPanel extends JPanel {
 	    }
 	    if (arcs != null) {
 	    	g.setColor(Color.BLACK);
-			for (Pair p: arcs) {
+			for (Pair<Point, Point> p: arcs) {
 				int sx = (int) ((Point) p.getFirst()).getX() * 9;
 				int sy = (int) ((Point) p.getFirst()).getY() * 9;
 				int tx = (int) ((Point) p.getSecond()).getX() * 9;
@@ -52,7 +53,7 @@ public class MyPanel extends JPanel {
 	    }
 	    if (addedArcs != null) {
 	    	g.setColor(Color.RED);
-			for (Pair p: addedArcs) {
+			for (Pair<Point, Point> p: addedArcs) {
 				int sx = (int) ((Point) p.getFirst()).getX() * 9;
 				int sy = (int) ((Point) p.getFirst()).getY() * 9;
 				int tx = (int) ((Point) p.getSecond()).getX() * 9;

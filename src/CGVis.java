@@ -2,42 +2,21 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JSplitPane;
-
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import java.awt.Graphics;
 import java.awt.Point;
-
-import javax.swing.JToolBar;
-
-import org.omg.CORBA.INITIALIZE;
 import org.w3c.dom.Document;
-import java.io.File;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import java.awt.SystemColor;
@@ -45,8 +24,6 @@ import java.awt.SystemColor;
 public class CGVis {
 
 	private static JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
 	private static MyPanel panel;
 	private static File inputfile;
 	private static JTextPane txtpnId;
@@ -102,8 +79,6 @@ public class CGVis {
 		arcs = new ArrayList<Pair<Point, Point>>();
 		addedArcs = new ArrayList<Pair<Point, Point>>();
 	}
-	
-
 
 	/**
 	 * Initialize the contents of the frame.
