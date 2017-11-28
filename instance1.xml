@@ -1,0 +1,22 @@
+<?xml version = "1.0"?>
+<run strategy ="Add all" tolerance = "-1.9">
+	<graph>
+		<dest id="0" x="20" y="8"></dest>
+		<dest id="1" x="50" y="16"></dest>
+		<dest id="2" x="2" y="30"></dest>
+		<dest id="3" x="7" y="20"></dest>
+		<dest id="4" x="82" y="83"></dest>
+		<dest id="5" x="67" y="24"></dest>
+	</graph>
+	<iteration i="1" sc = "10" vc = "3" ac = "2">
+		<violated s="0" t="1" added="true"/>
+		<violated s="0" t="5" added="true"/>
+		<violated s = "2" t = "3" added="false" />
+	</iteration>
+	<iteration i="2" sc = "15" vc = "3" ac = "2">
+		<violated s="0" t="2" added="true" />
+		<violated s = "2" t = "1" added = "false"/>
+		<violated s="4" t="1" added="true"/>
+	</iteration>
+
+</run>
