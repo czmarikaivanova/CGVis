@@ -1,12 +1,17 @@
 
 public class Pair<A, B> {
-    private A first;
-    private B second;
 
-    public Pair(A first, B second) {
+
+	private A first;
+    private B second;
+    private double val;
+    
+    
+    public Pair(A first, B second, double val) {
         super();
         this.first = first;
         this.second = second;
+        this.val = val;
     }
 
     public int hashCode() {
@@ -51,4 +56,12 @@ public class Pair<A, B> {
     public void setSecond(B second) {
         this.second = second;
     }
+    
+    public double getVal() {
+		return val;
+	}
+
+	public void setVal(double val) {
+		this.val = val;
+	}
 }

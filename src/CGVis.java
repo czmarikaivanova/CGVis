@@ -233,7 +233,8 @@ public class CGVis {
 	            			Element el = (Element) node;
 	            			Point p1 = points.get(Integer.parseInt(el.getAttribute("s")));
 	            			Point p2 = points.get(Integer.parseInt(el.getAttribute("t")));
-	            			Pair<Point, Point> pairToAdd = new Pair<Point, Point>(p1, p2); 
+	            			double val = Double.parseDouble(el.getAttribute("val"));
+	            			Pair<Point, Point> pairToAdd = new Pair<Point, Point>(p1, p2, val); 
 	            			arcs.add(pairToAdd);
 	            			if (Boolean.parseBoolean((el.getAttribute("added")))) {
 	            				addedArcs.add(pairToAdd);
