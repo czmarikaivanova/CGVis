@@ -65,7 +65,7 @@ public class MyPanel extends JPanel {
 		int ty = (int) ((Point) p.getSecond()).getY() * SCALE;
 		g.drawLine(sx, sy, tx, ty);
 		g.setColor(Color.blue);
-        g.drawString(Double.toString(round(p.getVal(), 2)), (sx + tx)/2, (sy + ty)/2-3);
+        g.drawString(Double.toString(round(p.getVal(), 2)), (sx + tx)/2-3, (sy + ty)/2-3);
 	}
 	
 	private double round(double value, int places) {
