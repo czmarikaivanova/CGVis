@@ -30,9 +30,11 @@ public class CGVis {
 	private static ArrayList<Point> points;
 	private static ArrayList<Pair<Point,Point>> arcs;
 	private static ArrayList<Pair<Point,Point>> addedArcs;
+	private static ArrayList<Pair<Point,Point>> newlySatArcs;
 	
 	private static int iter = 0;
 	private static int maxIter = 0;
+	private static int innerIter = 2;
 	private static boolean showAdded = true;
 	private static String strategy = "";
 	private static double t = 0.0;
@@ -78,6 +80,7 @@ public class CGVis {
 		points = new ArrayList<Point>();
 		arcs = new ArrayList<Pair<Point, Point>>();
 		addedArcs = new ArrayList<Pair<Point, Point>>();
+		newlySatArcs = new ArrayList<Pair<Point, Point>>();
 	}
 
 	/**
@@ -198,16 +201,21 @@ public class CGVis {
         readArcsXML();
         panel.setDsts(points);
         panel.setArcs(arcs);
-        if (!showAdded) {		
+        if (innerIter == 0 ) {		
         	addedArcs.clear();
+        	newlySatArcs.clear();
+        }
+        if (innerIter == 1) {
+        	newlySatArcs.clear();
         }
     	panel.setAddedArcs(addedArcs);
+    	panel.setNewlySatArcs(newlySatArcs);
         frame.revalidate();
         frame.repaint();
 	}
 	
 	private static void updateInfo() {
-        txtpnId.setText("File: " + inputfile.getName() + "\nStrategy = " + strategy + "         T= " + t + " \n Iteration = " + iter + " \n Violated: " + violated + " \t Satisfied: " + satisfied + "\t Added: " + added);
+        txtpnId.setText("File: " + inputfile.getName() + "\nStrategy = " + strategy + "         T= " + t + " \n Iteration = " + iter + "inner = " + innerIter + " \n Violated: " + violated + " \t Satisfied: " + satisfied + "\t Added: " + added);
 	}
 	
 	private static void readArcsXML() {
@@ -219,6 +227,26 @@ public class CGVis {
 	         NodeList nList = doc.getElementsByTagName("iteration");
 	         maxIter = nList.getLength();
 	         arcs = new ArrayList<>();
+	         ArrayList<Pair> nextIterViolated = new ArrayList<Pair>();
+	         
+	         for (int temp = 0; temp < nList.getLength(); temp++) {
+		            Node nNode = nList.item(temp);
+		            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		            	Element eElement = (Element) nNode;
+		            	if (Integer.parseInt(eElement.getAttribute("i")) == iter + 1) { 
+		            		NodeList nListViolated = eElement.getElementsByTagName("violated");
+		            		for (int i = 0; i < nListViolated.getLength(); i ++) {
+		            			Node node = nListViolated.item(i);
+		            			Element el = (Element) node;
+		            			Point p1 = points.get(Integer.parseInt(el.getAttribute("s")));
+		            			Point p2 = points.get(Integer.parseInt(el.getAttribute("t")));
+		            			double val = Double.parseDouble(el.getAttribute("val"));
+		            			Pair<Point, Point> pairToAdd = new Pair<Point, Point>(p1, p2, val); 
+		            			nextIterViolated.add(pairToAdd);
+		            		}
+		            	}
+		            }
+		         }
 	         for (int temp = 0; temp < nList.getLength(); temp++) {
 	            Node nNode = nList.item(temp);
 	            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -239,10 +267,14 @@ public class CGVis {
 	            			if (Boolean.parseBoolean((el.getAttribute("added")))) {
 	            				addedArcs.add(pairToAdd);
 	            			}
+	            			if (!nextIterViolated.contains(pairToAdd)) {
+	            				newlySatArcs.add(pairToAdd);
+	            			}
 	            		}
 	            	}
 	            }
 	         }
+
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
@@ -253,28 +285,56 @@ public class CGVis {
 	// when next button is pressed
 	private static void nextIter() {
 		if (iter <= maxIter) {
-			if (showAdded) {
-				iter++;
+			innerIter = (innerIter + 1) % 3;
+			switch (innerIter) {
+				case 0: 
+				{
+					showAdded = false;
+					iter ++;
+					break;
+				}
+				case 1:
+				{
+					showAdded = true;
+					break;
+				}
+				case 2:
+				{
+					showAdded = true;
+					break;
+				}
 			}
-			showAdded = !showAdded;
-			loadFile(showAdded);
-		}
+		loadFile(showAdded);
         updateInfo();
+		}
 	}
 	
 	// when prev button is pressed
 	private static void prevIter() {
 		if (iter > 0) {
-			if (!showAdded) {
-				iter--;
+			innerIter = innerIter - 1;
+			if (innerIter < 0 ) innerIter = 2;
+			switch (innerIter) {
+				case 0: 
+				{
+					showAdded = false;
+					break;
+				}
+				case 1:
+				{
+					showAdded = true;
+					break;
+				}
+				case 2:
+				{
+					iter--;
+					showAdded = true;
+					break;
+				}
 			}
-			else {
-				addedArcs.clear();
-			}
-				showAdded = !showAdded;
-			loadFile(showAdded);
-		}
+		loadFile(showAdded);
         updateInfo();
+		}
 	}
 	
 	private static void readPointsXML() {

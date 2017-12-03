@@ -1,5 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -16,6 +17,7 @@ public class MyPanel extends JPanel {
 	ArrayList<Point> dstsCoords;
 	ArrayList<Pair<Point,Point>> arcs;
 	ArrayList<Pair<Point,Point>> addedArcs;
+	ArrayList<Pair<Point,Point>> newlySatArcs;
 	
 	public void setDsts(ArrayList<Point> dstsCoords) {
 		this.dstsCoords = dstsCoords;
@@ -29,11 +31,39 @@ public class MyPanel extends JPanel {
 		this.addedArcs = arcs;
 	}
 	
+	public void setNewlySatArcs(ArrayList<Pair<Point, Point>> arcs) {
+		this.newlySatArcs = arcs;
+	}
+	
 	public void paint(Graphics graphics) {
+
 		Graphics2D g = (Graphics2D) graphics;
-	    g.setColor(Color.WHITE);
+
+		g.setColor(Color.WHITE);
 		g.setStroke(new BasicStroke(3));
 	    g.fillRect(0, 0, 100*SCALE, 100*SCALE);
+
+	    if (newlySatArcs != null) {
+	    	for (Pair<Point, Point> p: newlySatArcs) {
+				g.setColor(Color.YELLOW);
+				 g.setStroke(new BasicStroke(5));
+				drawArc(g, p);
+			}
+	    }
+	    if (arcs != null) {
+			for (Pair<Point, Point> p: arcs) {
+				g.setColor(Color.GRAY);
+				g.setStroke(new BasicStroke(2));
+				drawArc(g, p);
+			}
+	    }
+	    if (addedArcs != null) {
+			for (Pair<Point, Point> p: addedArcs) {
+				g.setColor(Color.RED);
+				g.setStroke(new BasicStroke(2));
+				drawArc(g, p);
+			}
+	    }
 	    g.setColor(Color.BLACK);
 	    if (dstsCoords != null) {
 			for (Point p: dstsCoords) {
@@ -41,19 +71,8 @@ public class MyPanel extends JPanel {
 				int py = (int) p.getY() * SCALE - 5;
 //				g.fillRect(px, py, dstSize, dstSize);
 				g.fillOval(px, py, dstSize, dstSize);
+				g.setFont(new Font("TimesRoman", Font.BOLD, 15)); 
 			      g.drawString(Integer.toString(dstsCoords.indexOf(p)), px + 8, py);
-			}
-	    }
-	    if (arcs != null) {
-			for (Pair<Point, Point> p: arcs) {
-				g.setColor(Color.GRAY);
-				drawArc(g, p);
-			}
-	    }
-	    if (addedArcs != null) {
-			for (Pair<Point, Point> p: addedArcs) {
-				g.setColor(Color.RED);
-				drawArc(g, p);
 			}
 	    }
 	  }
@@ -65,6 +84,7 @@ public class MyPanel extends JPanel {
 		int ty = (int) ((Point) p.getSecond()).getY() * SCALE;
 		g.drawLine(sx, sy, tx, ty);
 		g.setColor(Color.blue);
+		g.setFont(new Font("TimesRoman", Font.BOLD, 12)); 
         g.drawString(Double.toString(round(p.getVal(), 2)), (sx + tx)/2-3, (sy + ty)/2-3);
 	}
 	
