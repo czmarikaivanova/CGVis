@@ -45,9 +45,11 @@ public class MyPanel extends JPanel {
 
 	    if (newlySatArcs != null) {
 	    	for (Pair<Point, Point> p: newlySatArcs) {
+	    		if (!addedArcs.contains(p)) {
 				g.setColor(Color.YELLOW);
 				 g.setStroke(new BasicStroke(5));
 				drawArc(g, p);
+	    		}
 			}
 	    }
 	    if (arcs != null) {
